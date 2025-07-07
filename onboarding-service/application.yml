@@ -1,0 +1,87 @@
+spring:
+  application:
+    name: onboarding-service
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: classpath:liquibase/changelog-master.yml
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 0
+
+springdoc:
+  api-docs:
+    version: OPENAPI_3_0
+
+client:
+  feign:
+    account-service:
+     url: ACCOUNTING-SERVICE
+    security-service:
+     url: SECURITY-SERVICE
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: mapping,bus-refresh,bus-env,health,circuitbreakerevents,retry
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      accountServiceCircuitBreaker:
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 4
+        failure-rate-threshold: 50
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 5s
+        minimum-number-of-calls: 1
+        event-consumer-buffer-size: 10
+        register-health-indicator: true
+        permitted-number-of-calls-in-half-open-state: 3
+      securityServiceCircuitBreaker:
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 4
+        failure-rate-threshold: 50
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 5s
+        minimum-number-of-calls: 1
+        event-consumer-buffer-size: 10
+        register-health-indicator: true
+        permitted-number-of-calls-in-half-open-state: 3
+      
+    circuit-breaker-aspect-order: 1
+  retry:
+    retry-aspect-order: 2
+    instances:
+      accountServiceRetry:
+        max-attempts: 2
+        wait-duration: 1000
+      securityServiceRetry:
+        max-attempts: 2
+        wait-duration: 1000
+
+
+
