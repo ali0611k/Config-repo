@@ -72,11 +72,6 @@ resilience4j:
         event-consumer-buffer-size: 10
         register-health-indicator: true
         permitted-number-of-calls-in-half-open-state: 3
-        record-exceptions:
-          - feign.RetryableException
-          - feign.FeignException
-          - java.net.ConnectException
-         - org.springframework.cloud.client.discovery.NoAvailableServiceException
       
     circuit-breaker-aspect-order: 1
   retry:
