@@ -1,6 +1,6 @@
 spring:
   application:
-    name: recruitment-service
+    name: RECRUITMENT-SERVICE
   datasource:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
