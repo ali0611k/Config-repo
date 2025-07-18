@@ -17,6 +17,31 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092,localhost:9094
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 10
+      properties:
+        delivery.timeout.ms: 20000
+        linger.ms: 0
+        request.timeout.ms: 10000
+        enable.idempotence: true
+        max.in.flight.requests.per.connection: 5
+topic:
+  accounting-allocate-requests:
+    name: accounting-allocate-requests
+    partitions: 3
+    replicas: 3
+    sync: 2
+  security-check-requests:
+    name: security-check-requests
+    partitions: 3
+    replicas: 3
+    sync: 2
+
 eureka:
   client:
     service-url:
