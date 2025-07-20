@@ -19,7 +19,7 @@ spring:
 
   kafka:
     producer:
-      bootstrap-servers: localhost:9092,localhost:9094
+      bootstrap-servers: localhost:9092,localhost:9094,localhost:9096
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       acks: all
@@ -30,6 +30,14 @@ spring:
         request.timeout.ms: 10000
         enable.idempotence: true
         max.in.flight.requests.per.connection: 5
+    consumer:
+      bootstrap-servers: localhost:9092,localhost:9094,localhost:9096
+      group-id: my-consumer-group
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+        
 topic:
   accounting-allocate-requests:
     name: accounting-allocate-requests
