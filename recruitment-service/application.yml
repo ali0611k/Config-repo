@@ -32,7 +32,7 @@ spring:
         max.in.flight.requests.per.connection: 5
         transaction-id-prefix: transfer-service-${random.value}
     consumer:
-      bootstrap-servers: localhost:9092,localhost:9094,localhost:9096
+      bootstrap-servers: localhost:9092,localhost:9094
       group-id: my-consumer-group
       auto-offset-reset: earliest
       enable-auto-commit: true
